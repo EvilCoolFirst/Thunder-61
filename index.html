@@ -3,184 +3,310 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Гром-61 | Постапокалиптический шутер</title>
+  <title>Гром‑61 | Зона отчуждения</title>
   <style>
     :root {
-      --bg-dark: #121214;
-      --panel: #1e1e21;
-      --accent: #c17a3a; /* ржаво-оранжевый */
-      --text: #e0e0e0;
-      --muted: #888;
-      --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+      --bg-zone: #0e0e11;
+      --panel: #15151a;
+      --paper: #f2efe5;
+      --border: #2a2a30;
+      --text-main: #dcdcdc;
+      --text-muted: #9a9a9d;
+      --accent-rust: #b86f44;
+      --accent-rad: #c14040;
+      --glass: rgba(10, 10, 15, 0.75);
+      --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.12'/%3E%3C/svg%3E");
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background-color: var(--bg-dark);
-      color: var(--text);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background-color: var(--bg-zone);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       line-height: 1.5;
     }
 
-    /* Главный экран */
+    /* Шум поверх всего */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: var(--noise);
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0.6;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* Hero — главная панель */
     .hero {
       position: relative;
-      height: 100vh;
+      height: 85vh;
       min-height: 600px;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       overflow: hidden;
+      padding: 1rem;
+      z-index: 2;
     }
 
     .hero::before {
       content: "";
       position: absolute;
       inset: 0;
-      background-image: var(--noise);
-      pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, rgba(15,15,20,0.65) 0%, rgba(0,0,0,1) 100%);
       z-index: 1;
     }
 
     .hero-content {
       position: relative;
       z-index: 2;
-      padding: 2rem;
       max-width: 800px;
     }
 
     .hero img {
       width: 100%;
-      height: auto;
       max-height: 70vh;
       object-fit: cover;
-      border: 1px solid #333;
-      filter: drop-shadow(0 0 15px rgba(0,0,0,0.5));
-      margin-bottom: 1.5rem;
+      border: 2px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      filter: sepia(0.08) contrast(1.1) brightness(0.96);
     }
 
     h1 {
-      font-size: 3.5rem;
+      font-size: 3.4rem;
       letter-spacing: -1px;
-      margin-bottom: 0.5rem;
-      text-transform: uppercase;
       color: #fff;
-      text-shadow: 0 0 10px rgba(255,255,255,0.3);
+      text-transform: uppercase;
+      text-shadow: 0 0 12px rgba(255,255,255,0.25);
+      margin-top: 1.2rem;
+      margin-bottom: 0.5rem;
     }
 
     .subtitle {
-      font-size: 1.2rem;
-      color: var(--muted);
-      max-width: 600px;
-      margin: 0 auto 2rem auto;
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      max-width: 640px;
+      margin: 0 auto 2.5rem auto;
     }
 
+    /* Кнопки */
     .btn-group {
       display: flex;
-      gap: 1rem;
+      gap: 1.2rem;
       flex-wrap: wrap;
       justify-content: center;
     }
 
     .btn {
-      padding: 1rem 2rem;
-      font-size: 1.1rem;
+      padding: 1rem 2.2rem;
+      font-weight: 700;
       text-decoration: none;
-      border-radius: 4px;
-      font-weight: 600;
+      border-radius: 2px;
+      cursor: pointer;
       transition: all 0.2s ease;
       text-transform: uppercase;
+      font-size: 1rem;
+      position: relative;
+      overflow: hidden;
     }
+
+    .btn::after {
+      content: "";
+      position: absolute;
+      top:0; left:0; right:0; bottom:0;
+      background: rgba(0,0,0,0.2);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .btn:hover::after { opacity: 1; }
 
     .btn-steam {
-      background: #1b1b1f;
+      background: #1b1b20;
       color: #fff;
-      border: 1px solid #444;
+      border: 1px solid #4a4a55;
     }
-    .btn-steam:hover { background: #333; border-color: #666; }
+    .btn-steam:hover { background: #333; border-color: #777; }
 
     .btn-yt {
-      background: #cc0000;
+      background: var(--accent-rad);
       color: #fff;
       border: none;
     }
-    .btn-yt:hover { background: #e60000; }
+    .btn-yt:hover { background: #e04040; }
 
-    /* Секция скриншотов */
-    .screenshots {
-      padding: 4rem 1rem;
+    /* Панели как старые экраны */
+    .panel {
       background: var(--panel);
-      text-align: center;
+      border: 1px solid var(--border);
+      box-shadow:
+        0 4px 16px rgba(0,0,0,0.4),
+        inset 0 0 10px rgba(0,0,0,0.3);
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+      border-radius: 4px;
     }
 
-    .screenshots h2 {
-      font-size: 2rem;
-      margin-bottom: 2rem;
+    h2 {
+      font-size: 2.1rem;
       text-transform: uppercase;
-      color: var(--accent);
+      color: #fff;
+      margin-bottom: 1.2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
     }
 
+    p { color: var(--text-main); }
+
+    /* Секция «Документы» — под стиль справок/отчётов */
+    .doc-card {
+      background: var(--paper);
+      border: 1px solid #ccc;
+      color: #222;
+      padding: 1.5rem;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+    .doc-card h3 {
+      color: #222;
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    /* Галерея скриншотов */
     .gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      max-width: 1200px;
-      margin: 0 auto;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
     }
-
     .gallery img {
       width: 100%;
       height: auto;
-      border: 1px solid #333;
+      display: block;
+      border: 1px solid #222;
       background: #000;
+      filter: contrast(1.05) brightness(0.95) sepia(0.1) saturate(0.8) grayscale(0.1);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    }
+    .gallery img:hover {
+      filter: contrast(1.2) brightness(1) sepia(0.04) saturate(1) grayscale(0);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.6);
     }
 
+    /* Тревожный индикатор */
+    .rad-indicator {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      background: rgba(193, 64, 64, 0.15);
+      border: 1px dashed var(--accent-rad);
+      color: var(--accent-rad);
+      font-weight: 700;
+      text-transform: uppercase;
+      animation: pulseRad 2.4s infinite;
+      margin-bottom: 1.5rem;
+    }
+
+    @keyframes pulseRad {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(193,64,64,0.4); }
+      50% { box-shadow: 0 0 18px 6px rgba(193,64,64,0.7); }
+    }
+
+    /* Футер */
     footer {
-      padding: 2rem 1rem;
+      padding: 3rem 1rem;
       text-align: center;
-      color: var(--muted);
-      border-top: 1px solid #2a2a2d;
-      font-size: 0.9rem;
+      color: var(--text-muted);
+      border-top: 1px solid #25252b;
+      background: rgba(10,10,12,0.8);
+      backdrop-filter: blur(4px);
     }
 
-    @media (max-width: 600px) {
-      h1 { font-size: 2.2rem; }
-      .hero img { max-height: 50vh; }
+    /* Анимация появления */
+    @keyframes zoneFadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: zoneFadeIn 0.8s ease-out forwards; }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.3rem; }
+      .hero { height: 100vh; }
+      .panel { padding: 1.2rem; }
     }
   </style>
 </head>
 <body>
-  <section class="hero">
-    <div class="hero-content">
-      <!-- Сюда поставь свою главную картинку -->
-      <img src="img/hero.jpg" alt="Гром-61 — главный кадр" />
 
-      <h1>Гром‑61</h1>
-      <p class="subtitle">
-        Постапокалиптический выживач: лутинг, езда на машине (в которой можно греться), шутер от третьего лица и напряжённая боёвка.
-      </p>
+  <div class="container">
+    <section class="hero fade-in">
+      <div class="hero-content">
+        <!-- Сюда поставь свою главную картинку -->
+        <img src="img/hero.jpg" alt="Гром-61 — главный кадр" />
+        <h1>Гром‑61</h1>
+        <p class="subtitle">
+          Постапокалиптический выживач в духе «Чернобыльской зоны»: лутинг, напряжённая боёвка, езда на машине (в которой можно греться) и шутер от третьего лица.
+        </p>
 
-      <div class="btn-group">
-        <a href="https://store.steampowered.com/" class="btn btn-steam" target="_blank" rel="noopener noreferrer">Steam</a>
-        <a href="https://www.youtube.com/" class="btn btn-yt" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <div class="btn-group">
+          <a href="https://store.steampowered.com/" class="btn btn-steam" target="_blank" rel="noopener noreferrer">Steam</a>
+          <a href="https://www.youtube.com/" class="btn btn-yt" target="_blank" rel="noopener noreferrer">YouTube</a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="screenshots">
-    <h2>Кадры из игры</h2>
-    <div class="gallery">
-      <!-- Добавь сюда свои скриншоты -->
-      <img src="img/shot1.jpg" alt="Скриншот 1" />
-      <img src="img/shot2.jpg" alt="Скриншот 2" />
-      <img src="img/shot3.jpg" alt="Скриншот 3" />
-    </div>
-  </section>
+    <section class="panel fade-in" style="animation-delay: 0.2s;">
+      <h2>О проекте</h2>
+      <p>
+        «Гром‑61» — это выживание в постсоветской зоне отчуждения. Атмосфера строится на ощущении заброшенности, дефицита ресурсов и постоянной угрозы.
+      </p>
+      <br/>
+      <div class="rad-indicator">Уровень радиации: повышенный</div>
+      <p>
+        В основе геймплея — поиск ресурсов, исследование руин и взаимодействие с опасной средой. Каждый выбор влияет на шансы выжить.
+      </p>
+    </section>
+
+    <section class="fade-in" style="animation-delay: 0.4s;">
+      <h2 style="text-align:center; margin-bottom:1.5rem;">Ключевые особенности</h2>
+      <div class="gallery">
+        <div class="doc-card">
+          <h3>Лутинг и ресурсы</h3>
+          <p>Система лута построена на дефиците: редкие предметы имеют высокую ценность, а обыск локаций всегда связан с риском.</p>
+        </div>
+        <div class="doc-card">
+          <h3>Машина и обогрев</h3>
+          <p>Транспорт — не просто средство передвижения: в машине можно укрыться и согреться, но топливо и запчасти ограничены.</p>
+        </div>
+        <div class="doc-card">
+          <h3>Шутер и боёвка</h3>
+          <p>Бои от третьего лица требуют тактического подхода: у врагов разные модели поведения, а у игрока — ограниченные боеприпасы.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel fade-in" style="animation-delay: 0.6s;">
+      <h2>Кадры из игры</h2>
+      <div class="gallery">
+        <!-- Добавь сюда свои скриншоты -->
+        <img src="img/shot1.jpg" alt="Скриншот 1" />
+        <img src="img/shot2.jpg" alt="Скриншот 2" />
+        <img src="img/shot3.jpg" alt="Скриншот 3" />
+      </div>
+    </section>
+  </div>
 
   <footer>
-    &copy; 2026 Гром‑61. Все права защищены.
+    &copy; 2026 Гром‑61. Все права защищены. Зона отчуждения.
   </footer>
 </body>
 </html>
