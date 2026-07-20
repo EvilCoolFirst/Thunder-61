@@ -1,0 +1,224 @@
+:root {
+  --zone-bg: #0f0f11;                 /* почти чёрный, но не «выбитый» */
+  --panel: #1a1a1d;                  /* тёмная панель интерфейса */
+  --border: #2b2b33;                 /* тёмная рамка */
+  --text-main: #dcdcdc;              /* читаемый светло‑серый */
+  --text-muted: #7a7a85;             /* выцветший текст */
+  --accent-rust: #c48a4a;            /* ржаво‑оранжевый */
+  --accent-rad: #a33f3f;             /* тревожно‑красный (радиация) */
+  --glass: rgba(15, 15, 20, 0.65);   /* полупрозрачное затемнение */
+  --noise-overlay: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.12'/%3E%3C/svg%3E");
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--zone-bg);
+  color: var(--text-main);
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Эффект «старой плёнки» на всём сайте */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: var(--noise-overlay);
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.75;
+}
+
+/* Панель/карточки как HUD из игры */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    inset 0 0 8px rgba(0, 0, 0, 0.3);
+  padding: 1.5rem;
+  border-radius: 4px;
+}
+
+/* Типографика в стиле интерфейса */
+h1, h2, h3 {
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  color: #fff;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.25);
+}
+
+h1 {
+  font-size: 3.2rem;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+}
+
+p {
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+/* Кнопки как элементы HUD */
+.btn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  font-size: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.2);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.btn:hover::after { opacity: 1; }
+
+.btn-steam {
+  background: #171a21;
+  color: #fff;
+  border: 1px solid #3b3f49;
+}
+.btn-steam:hover {
+  background: #2a2e38;
+  border-color: #6a6e7a;
+}
+
+.btn-yt {
+  background: #cc0000;
+  color: #fff;
+  border: none;
+}
+.btn-yt:hover { background: #e60000; }
+
+/* Акцент на радиацию/опасность */
+.rad-warning {
+  color: var(--accent-rad);
+  text-shadow: 0 0 8px rgba(163, 63, 63, 0.6);
+  font-weight: 700;
+}
+
+/* Галерея скриншотов — как кадры с камеры сталкера */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  padding: 2rem 1rem;
+}
+
+.gallery img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid #222;
+  background: #000;
+  filter:
+    contrast(1.05)
+    brightness(0.95)
+    sepia(0.08)
+    saturate(0.8)
+    grayscale(0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.gallery img:hover {
+  filter: contrast(1.2) brightness(1) sepia(0.05) saturate(1) grayscale(0);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+/* Hero-блок с большой картинкой */
+.hero {
+  position: relative;
+  height: 85vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(10,10,15,0.7) 0%, rgba(0,0,0,1) 100%),
+    var(--noise-overlay);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 1rem;
+}
+
+.hero img {
+  width: 100%;
+  max-height: 75vh;
+  object-fit: cover;
+  border: 2px solid #2b2b33;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  filter: sepia(0.06) contrast(1.1) brightness(0.98);
+}
+
+/* Футер как старая табличка */
+footer {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  border-top: 1px solid #25252b;
+  background: rgba(10, 10, 12, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+/* Анимация «появления» для драматизма */
+@keyframes zoneFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: zoneFadeIn 0.8s ease-out forwards;
+}
+
+/* Класс для «мигания» как у индикатора тревоги */
+.pulse-rad {
+  animation: pulseRad 2s infinite;
+}
+
+@keyframes pulseRad {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(163, 63, 63, 0.4); }
+  50% { box-shadow: 0 0 16px 6px rgba(163, 63, 63, 0.7); }
+}
+
+/* Адаптив */
+@media (max-width: 768px) {
+  h1 { font-size: 2.2rem; }
+  .hero { height: 100vh; }
+  .panel { padding: 1rem; }
+}
