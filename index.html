@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Гром-61 | Постапокалиптический шутер</title>
+  <style>
+    :root {
+      --bg-dark: #121214;
+      --panel: #1e1e21;
+      --accent: #c17a3a; /* ржаво-оранжевый */
+      --text: #e0e0e0;
+      --muted: #888;
+      --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height: 1.5;
+    }
+
+    /* Главный экран */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: var(--noise);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 2rem;
+      max-width: 800px;
+    }
+
+    .hero img {
+      width: 100%;
+      height: auto;
+      max-height: 70vh;
+      object-fit: cover;
+      border: 1px solid #333;
+      filter: drop-shadow(0 0 15px rgba(0,0,0,0.5));
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      letter-spacing: -1px;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255,255,255,0.3);
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 2rem auto;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+    }
+
+    .btn-steam {
+      background: #1b1b1f;
+      color: #fff;
+      border: 1px solid #444;
+    }
+    .btn-steam:hover { background: #333; border-color: #666; }
+
+    .btn-yt {
+      background: #cc0000;
+      color: #fff;
+      border: none;
+    }
+    .btn-yt:hover { background: #e60000; }
+
+    /* Секция скриншотов */
+    .screenshots {
+      padding: 4rem 1rem;
+      background: var(--panel);
+      text-align: center;
+    }
+
+    .screenshots h2 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: auto;
+      border: 1px solid #333;
+      background: #000;
+    }
+
+    footer {
+      padding: 2rem 1rem;
+      text-align: center;
+      color: var(--muted);
+      border-top: 1px solid #2a2a2d;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 2.2rem; }
+      .hero img { max-height: 50vh; }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <div class="hero-content">
+      <!-- Сюда поставь свою главную картинку -->
+      <img src="img/hero.jpg" alt="Гром-61 — главный кадр" />
+
+      <h1>Гром‑61</h1>
+      <p class="subtitle">
+        Постапокалиптический выживач: лутинг, езда на машине (в которой можно греться), шутер от третьего лица и напряжённая боёвка.
+      </p>
+
+      <div class="btn-group">
+        <a href="https://store.steampowered.com/" class="btn btn-steam" target="_blank" rel="noopener noreferrer">Steam</a>
+        <a href="https://www.youtube.com/" class="btn btn-yt" target="_blank" rel="noopener noreferrer">YouTube</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="screenshots">
+    <h2>Кадры из игры</h2>
+    <div class="gallery">
+      <!-- Добавь сюда свои скриншоты -->
+      <img src="img/shot1.jpg" alt="Скриншот 1" />
+      <img src="img/shot2.jpg" alt="Скриншот 2" />
+      <img src="img/shot3.jpg" alt="Скриншот 3" />
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2026 Гром‑61. Все права защищены.
+  </footer>
+</body>
+</html>
