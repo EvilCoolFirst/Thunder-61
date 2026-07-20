@@ -14,7 +14,6 @@
       --text-muted: #9a9a9d;
       --accent-rust: #b86f44;
       --accent-rad: #c14040;
-      --glass: rgba(10, 10, 15, 0.75);
       --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.12'/%3E%3C/svg%3E");
     }
 
@@ -44,7 +43,7 @@
       padding: 0 1rem;
     }
 
-    /* Hero — главная панель */
+    /* Hero */
     .hero {
       position: relative;
       height: 85vh;
@@ -143,7 +142,7 @@
     }
     .btn-yt:hover { background: #e04040; }
 
-    /* Панели как старые экраны */
+    /* Панели */
     .panel {
       background: var(--panel);
       border: 1px solid var(--border);
@@ -166,7 +165,7 @@
 
     p { color: var(--text-main); }
 
-    /* Секция «Документы» — под стиль справок/отчётов */
+    /* Документы */
     .doc-card {
       background: var(--paper);
       border: 1px solid #ccc;
@@ -182,7 +181,7 @@
       text-transform: uppercase;
     }
 
-    /* Галерея скриншотов */
+    /* Галерея */
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -196,6 +195,8 @@
       background: #000;
       filter: contrast(1.05) brightness(0.95) sepia(0.1) saturate(0.8) grayscale(0.1);
       box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+      cursor: pointer;
+      transition: transform 0.3s ease, filter 0.3s ease;
     }
     .gallery img:hover {
       filter: contrast(1.2) brightness(1) sepia(0.04) saturate(1) grayscale(0);
@@ -221,7 +222,59 @@
       50% { box-shadow: 0 0 18px 6px rgba(193,64,64,0.7); }
     }
 
-    /* Футер */
+    /* Лайтбокс */
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 15, 0.92);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(2px);
+    }
+
+    .lightbox-overlay.active {
+      display: flex;
+    }
+
+    .lightbox-image-wrapper {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+    }
+
+    .lightbox-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 2px solid var(--border);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+      filter: sepia(0.06) contrast(1.1);
+      animation: zoneFadeIn 0.4s ease-out;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      background: transparent;
+      border: none;
+      color: var(--accent-rad);
+      font-size: 1.8rem;
+      cursor: pointer;
+      font-weight: bold;
+      text-transform: uppercase;
+      padding: 0 1rem;
+      transition: color 0.2s;
+    }
+    .lightbox-close:hover { color: #fff; text-shadow: 0 0 10px var(--accent-rad); }
+
+    @keyframes zoneFadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
     footer {
       padding: 3rem 1rem;
       text-align: center;
@@ -230,13 +283,6 @@
       background: rgba(10,10,12,0.8);
       backdrop-filter: blur(4px);
     }
-
-    /* Анимация появления */
-    @keyframes zoneFadeIn {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .fade-in { animation: zoneFadeIn 0.8s ease-out forwards; }
 
     @media (max-width: 768px) {
       h1 { font-size: 2.3rem; }
@@ -250,7 +296,6 @@
   <div class="container">
     <section class="hero fade-in">
       <div class="hero-content">
-        <!-- Сюда поставь свою главную картинку -->
         <img src="img/hero.jpg" alt="Гром-61 — главный кадр" />
         <h1>Гром‑61</h1>
         <p class="subtitle">
@@ -297,16 +342,51 @@
     <section class="panel fade-in" style="animation-delay: 0.6s;">
       <h2>Кадры из игры</h2>
       <div class="gallery">
-        <!-- Добавь сюда свои скриншоты -->
-        <img src="img/shot1.jpg" alt="Скриншот 1" />
-        <img src="img/shot2.jpg" alt="Скриншот 2" />
-        <img src="img/shot3.jpg" alt="Скриншот 3" />
+        <!-- Сюда клади свои скриншоты -->
+        <img src="img/shot1.jpg" alt="Скриншот 1" data-large="img/shot1.jpg" />
+        <img src="img/shot2.jpg" alt="Скриншот 2" data-large="img/shot2.jpg" />
+        <img src="img/shot3.jpg" alt="Скриншот 3" data-large="img/shot3.jpg" />
       </div>
     </section>
+  </div>
+
+  <!-- Лайтбокс -->
+  <div class="lightbox-overlay" id="lightbox">
+    <div class="lightbox-image-wrapper">
+      <button class="lightbox-close" id="lightboxClose">&times; Закрыть</button>
+      <img src="" alt="Увеличенный скриншот" class="lightbox-image" id="lightboxImage" />
+    </div>
   </div>
 
   <footer>
     &copy; 2026 Гром‑61. Все права защищены. Зона отчуждения.
   </footer>
-</body>
-</html>
+
+  <script>
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const closeBtn = document.getElementById('lightboxClose');
+    const images = document.querySelectorAll('.gallery img');
+
+    images.forEach(img => {
+      img.addEventListener('click', () => {
+        const largeSrc = img.getAttribute('data-large') || img.src;
+        lightboxImage.src = largeSrc;
+        lightbox.classList.add('active');
+      });
+    });
+
+    closeBtn.addEventListener('click', () => {
+      lightbox.classList.remove('active');
+    });
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        lightbox.classList.remove('active');
+      }
+    });
+
+    // Закрытие по клавише Esc
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+        lightbox.classList.remove('active');
