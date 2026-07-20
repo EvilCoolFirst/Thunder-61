@@ -195,7 +195,7 @@
       background: #000;
       filter: contrast(1.05) brightness(0.95) sepia(0.1) saturate(0.8) grayscale(0.1);
       box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-      cursor: pointer;
+      cursor: pointer; /* чтобы было понятно, что можно кликнуть */
       transition: transform 0.3s ease, filter 0.3s ease;
     }
     .gallery img:hover {
@@ -222,7 +222,7 @@
       50% { box-shadow: 0 0 18px 6px rgba(193,64,64,0.7); }
     }
 
-    /* Лайтбокс */
+    /* Лайтбокс (модальное окно) */
     .lightbox-overlay {
       position: fixed;
       inset: 0;
@@ -342,7 +342,7 @@
     <section class="panel fade-in" style="animation-delay: 0.6s;">
       <h2>Кадры из игры</h2>
       <div class="gallery">
-        <!-- Сюда клади свои скриншоты -->
+        <!-- Добавь сюда свои скриншоты -->
         <img src="img/shot1.jpg" alt="Скриншот 1" data-large="img/shot1.jpg" />
         <img src="img/shot2.jpg" alt="Скриншот 2" data-large="img/shot2.jpg" />
         <img src="img/shot3.jpg" alt="Скриншот 3" data-large="img/shot3.jpg" />
@@ -381,12 +381,4 @@
     });
 
     lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) {
-        lightbox.classList.remove('active');
-      }
-    });
-
-    // Закрытие по клавише Esc
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && lightbox.classList.contains('active')) {
-        lightbox.classList.remove('active');
+      if (e.
